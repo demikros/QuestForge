@@ -1,0 +1,23 @@
+name: QuestForge
+version: 1.0.0
+api-version: '1.21'
+main: dev.craftforge.questforge.QuestForge
+author: CraftForge
+description: A data-driven quest engine with objectives, rewards, and questlines.
+
+commands:
+  quest:
+    description: Main QuestForge command.
+    usage: /quest <list|info|start|abandon|gui|reload>
+    permission: questforge.quest
+
+permissions:
+  questforge.quest:
+    description: Allows use of /quest commands.
+    default: true
+  questforge.reload:
+    description: Allows use of /quest reload.
+    default: op
+  questforge.bypass.limit:
+    description: Bypass the active quest limit.
+    default: op

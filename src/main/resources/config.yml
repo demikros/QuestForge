@@ -1,0 +1,203 @@
+active-quest-limit: 3
+anti-farm: true
+flush-interval-seconds: 60
+
+messages:
+  prefix: "<dark_gray>[<gold>QuestForge</gold>]</dark_gray> "
+  quest-started: "<green>Quest started: <yellow>{quest}</yellow></green>"
+  quest-completed: "<gold><bold>Quest Complete!</bold></gold> <yellow>{quest}</yellow>"
+  quest-abandoned: "<red>Abandoned quest: <yellow>{quest}</yellow></red>"
+  quest-already-active: "<red>You already have that quest active.</red>"
+  quest-already-completed: "<red>You have already completed that quest.</red>"
+  quest-not-unlocked: "<red>You must complete <yellow>{required}</yellow> first.</red>"
+  quest-not-found: "<red>Quest not found: <yellow>{id}</yellow></red>"
+  quest-not-active: "<red>That quest is not active.</red>"
+  active-limit-reached: "<red>You have reached the active quest limit of <yellow>{limit}</yellow>.</red>"
+  reward-experience: "<green>+{amount} XP</green>"
+  reward-item: "<green>Received: <yellow>{item}</yellow></green>"
+  reward-command: ""
+  reload-success: "<green>QuestForge reloaded successfully.</green>"
+  no-permission: "<red>You do not have permission to do that.</red>"
+  objective-progress: "<gray>{quest} <dark_gray>|</dark_gray> <yellow>{objective}</yellow> <white>{current}/{required}</white>"
+  next-quest-hint: "<aqua>New quest unlocked: <yellow>{quest}</yellow>! Use /quest start {id} to begin.</aqua>"
+  gui-title: "<dark_gray>QuestForge <gray>- Page {page}/{total}</gray></dark_gray>"
+  gui-locked: "<red>Locked</red>"
+  gui-available: "<green>Available</green>"
+  gui-in-progress: "<yellow>In Progress</yellow>"
+  gui-completed: "<aqua>Completed</aqua>"
+  usage-quest: "<red>Usage: /quest <list|info <id>|start <id>|abandon <id>|gui|reload></red>"
+
+quests:
+  newcomer_gathering:
+    display-name: "<green>Newcomer's Gathering</green>"
+    description:
+      - "<gray>Welcome to the world! Gather some basic materials."
+      - "<gray>A good adventurer always stocks up."
+    repeatable: false
+    objectives:
+      - type: BREAK_BLOCK
+        target: OAK_LOG
+        amount: 10
+      - type: COLLECT_ITEM
+        target: DIRT
+        amount: 32
+      - type: BREAK_BLOCK
+        target: STONE
+        amount: 20
+    rewards:
+      - type: EXPERIENCE
+        amount: 150
+      - type: MESSAGE
+        text: "<gold>You have proven yourself a capable gatherer!</gold>"
+      - type: ITEM
+        material: IRON_PICKAXE
+        amount: 1
+
+  first_blood:
+    display-name: "<red>First Blood</red>"
+    description:
+      - "<gray>The wilderness is dangerous."
+      - "<gray>Prove you can defend yourself."
+    repeatable: false
+    objectives:
+      - type: KILL_MOB
+        target: ZOMBIE
+        amount: 5
+      - type: KILL_MOB
+        target: SKELETON
+        amount: 5
+    rewards:
+      - type: EXPERIENCE
+        amount: 200
+      - type: ITEM
+        material: GOLDEN_SWORD
+        amount: 1
+      - type: COMMAND
+        command: "give {player} cooked_beef 16"
+
+  deep_delver:
+    display-name: "<dark_gray>Deep Delver</dark_gray>"
+    description:
+      - "<gray>Venture into the depths and mine precious ores."
+    required-quest: newcomer_gathering
+    repeatable: false
+    objectives:
+      - type: BREAK_BLOCK
+        target: IRON_ORE
+        amount: 16
+      - type: BREAK_BLOCK
+        target: DEEPSLATE_IRON_ORE
+        amount: 8
+      - type: CRAFT_ITEM
+        target: IRON_INGOT
+        amount: 10
+    rewards:
+      - type: EXPERIENCE
+        amount: 400
+      - type: ITEM
+        material: DIAMOND
+        amount: 3
+      - type: COMMAND
+        command: "give {player} torch 64"
+
+  iron_warrior:
+    display-name: "<gray>Iron Warrior</gray>"
+    description:
+      - "<gray>Forge your iron into a full set of armor."
+      - "<gray>The dangers ahead demand proper protection."
+    required-quest: deep_delver
+    repeatable: false
+    objectives:
+      - type: CRAFT_ITEM
+        target: IRON_HELMET
+        amount: 1
+      - type: CRAFT_ITEM
+        target: IRON_CHESTPLATE
+        amount: 1
+      - type: CRAFT_ITEM
+        target: IRON_LEGGINGS
+        amount: 1
+      - type: CRAFT_ITEM
+        target: IRON_BOOTS
+        amount: 1
+    rewards:
+      - type: EXPERIENCE
+        amount: 600
+      - type: MESSAGE
+        text: "<gray>You are now clad in iron. The dungeon awaits!</gray>"
+      - type: COMMAND
+        command: "give {player} bread 32"
+
+  monster_hunter:
+    display-name: "<dark_red>Monster Hunter</dark_red>"
+    description:
+      - "<gray>Thin the monster population and protect the realm."
+    required-quest: first_blood
+    repeatable: true
+    objectives:
+      - type: KILL_MOB
+        target: CREEPER
+        amount: 10
+      - type: KILL_MOB
+        target: SPIDER
+        amount: 10
+      - type: KILL_MOB
+        target: any
+        amount: 50
+    rewards:
+      - type: EXPERIENCE
+        amount: 500
+      - type: ITEM
+        material: EMERALD
+        amount: 2
+
+  master_angler:
+    display-name: "<aqua>Master Angler</aqua>"
+    description:
+      - "<gray>Cast your line and prove your patience."
+    repeatable: true
+    objectives:
+      - type: FISH_ITEM
+        target: COD
+        amount: 10
+      - type: FISH_ITEM
+        target: SALMON
+        amount: 5
+      - type: FISH_ITEM
+        target: any
+        amount: 20
+    rewards:
+      - type: EXPERIENCE
+        amount: 250
+      - type: ITEM
+        material: FISHING_ROD
+        amount: 1
+      - type: COMMAND
+        command: "give {player} cooked_cod 10"
+
+  the_void_walker:
+    display-name: "<dark_purple>The Void Walker</dark_purple>"
+    description:
+      - "<gray>The final trial. Prove your mastery."
+    required-quest: iron_warrior
+    repeatable: false
+    objectives:
+      - type: KILL_MOB
+        target: ENDERMAN
+        amount: 20
+      - type: BREAK_BLOCK
+        target: END_STONE
+        amount: 64
+      - type: KILL_MOB
+        target: SHULKER
+        amount: 5
+    rewards:
+      - type: EXPERIENCE
+        amount: 2000
+      - type: ITEM
+        material: ENDER_PEARL
+        amount: 16
+      - type: MESSAGE
+        text: "<dark_purple>You have mastered the void. The End trembles before you.</dark_purple>"
+      - type: COMMAND
+        command: "give {player} elytra 1"
